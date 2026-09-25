@@ -234,8 +234,8 @@ enamldef NewDeviceDialog(Dialog): dialog:
         TaskDialogCommandArea:
             DialogButtonBox: bbox:
                 buttons = [
-                    DialogButton('OK', 'accept'),
-                    DialogButton('Cancel', 'reject'),
+                    DialogButton(QApplication.translate("device", "OK"), 'accept'),
+                    DialogButton(QApplication.translate("device", "Cancel"), 'reject'),
                 ]
 
 enamldef DeviceDialog(Dialog): dialog:
@@ -312,7 +312,7 @@ enamldef DeviceDialog(Dialog): dialog:
                             items << plugin.devices
                             Menu:
                                 Action:
-                                    text = 'Add'
+                                    text = QApplication.translate("device", "Add")
                                     triggered :: add_device()
                             Looper:
                                 iterable << plugin.devices

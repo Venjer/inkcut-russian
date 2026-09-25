@@ -104,12 +104,8 @@ enamldef DeviceConfigView(Container):
                         decimals = 6
                         minimum = -9999.9
                         maximum = 9999.9
-                        tool_tip = textwrap.dedent("""
-                        Final output scale for the x-axis.
-                        A value of '1' here means '90 points per inch'. For example:
-                        Suppose your device is 96 ppi, configure 96/90=1.06 here.
-                        Suppose your device is 200 points per cm, configure 200*2.54/90=5.64 here.
-                        """).strip()
+                        tool_tip = "\n".join(textwrap.wrap(
+                            QApplication.translate("device", "Final output scale for the x-axis. A value of '1' here means '90 points per inch'. For example: Suppose your device is 96 ppi, configure 96/90=1.06 here. Suppose your device is 200 points per cm, configure 200*2.54/90=5.64 here."), 60))
                     Label:
                         text = "y"
                     DoubleSpinBox:
@@ -117,12 +113,8 @@ enamldef DeviceConfigView(Container):
                         decimals = 6
                         minimum = -9999.9
                         maximum = 9999.9
-                        tool_tip = textwrap.dedent("""
-                            Final output scale for the y-axis.
-                            A value of '1' here means '90 points per inch'. For example:
-                            Suppose your device is 96 ppi, configure 96/90=1.06 here.
-                            Suppose your device is 200 points per cm, configure 200*2.54/90=5.64 here.
-                            """).strip()
+                        tool_tip = "\n".join(textwrap.wrap(
+                            QApplication.translate("device", "Final output scale for the y-axis. A value of '1' here means '90 points per inch'. For example: Suppose your device is 96 ppi, configure 96/90=1.06 here. Suppose your device is 200 points per cm, configure 200*2.54/90=5.64 here."), 60))
 
         Page:
             closable = False
@@ -133,11 +125,8 @@ enamldef DeviceConfigView(Container):
                 CheckBox:
                     text = QApplication.translate("device", "Uses spooling service")
                     checked := model.spooled
-                    tool_tip = textwrap.dedent("""
-                    If checked this will ignore interpolation settings and speed/delay settings.
-                    Spooled data simply goes into the spooling service's buffer these features do
-                    not apply. This should be enabled if using a device connected as a printer.
-                    """).strip()
+                    tool_tip = "\n".join(textwrap.wrap(
+                        QApplication.translate("device", "If checked this will ignore interpolation settings and speed/delay settings. Spooled data simply goes into the spooling service's buffer these features do not apply. This should be enabled if using a device connected as a printer."), 60))
 
                 Label:
                     pass
@@ -145,17 +134,12 @@ enamldef DeviceConfigView(Container):
                     enabled << not model.spooled
                     checked := model.interpolate
                     text = QApplication.translate("device", "Interpolate paths")
-                    tool_tip = textwrap.dedent("""
-                    If enabled this will break down the commands into
-                    smaller steps. This enables you to pause mid job for devices using streamed
-                    connections or motor control. It is not recommended for spooled (printer)
-                    devices.
-                    """).strip()
+                    tool_tip = "\n".join(textwrap.wrap(
+                        QApplication.translate("device", "If enabled this will break down the commands into smaller steps. This enables you to pause mid job for devices using streamed connections or motor control. It is not recommended for spooled (printer) devices."), 60))
                 Label:
                     text = QApplication.translate("device", "Step size")
-                    tool_tip = textwrap.dedent("""
-                    Sets the step size to use when interpolation is enabled.
-                    """).strip()
+                    tool_tip = "\n".join(textwrap.wrap(
+                        QApplication.translate("device", "Sets the step size to use when interpolation is enabled."), 60))
                 DoubleSpinBox:
                     enabled << model.interpolate
                     value << to_unit(model.step_size, 'mm')
@@ -165,10 +149,8 @@ enamldef DeviceConfigView(Container):
                     maximum = 99999.9
                 Label:
                     text = QApplication.translate("device", "Step time")
-                    tool_tip = textwrap.dedent("""
-                    Sets the time to wait before sending the next command when interpolation
-                    is used.
-                    """).strip()
+                    tool_tip = "\n".join(textwrap.wrap(
+                        QApplication.translate("device", "Sets the time to wait before sending the next command when interpolation is used."), 60))
                 DoubleSpinBox:
                     enabled << model.interpolate
                     value := model.step_time
@@ -177,12 +159,8 @@ enamldef DeviceConfigView(Container):
                     maximum = 1000
                 Label:
                     text = QApplication.translate("device", "Quality factor")
-                    tool_tip = textwrap.dedent("""
-                        Adjusts the quality of conversion from curves to polygons. Increasing
-                        this number will improve quality (more points on each curve) at the
-                        cost of more points needing to be processed by the device and stored
-                        in memory.
-                        """).strip()
+                    tool_tip = "\n".join(textwrap.wrap(
+                        QApplication.translate("device", "Adjusts the quality of conversion from curves to polygons. Increasing this number will improve quality (more points on each curve) at the cost of more points needing to be processed by the device and stored in memory."), 60))
                 DoubleSpinBox:
                     value := model.quality_factor
                     single_step = 0.01
@@ -191,15 +169,13 @@ enamldef DeviceConfigView(Container):
 
         Page:
             closable = False
-            title = "Developer"
+            title = QApplication.translate("device", "Developer")
             Form:
                 CheckBox:
                     checked := model.test_mode
                     text = QApplication.translate("device", "Test mode")
-                    tool_tip = textwrap.dedent("""
-                    When enabled, instead of sending data to the device this will just be printed
-                    to the log. It is for debugging purposes and should not normally be used.
-                    """).strip()
+                    tool_tip = "\n".join(textwrap.wrap(
+                        QApplication.translate("device", "When enabled, instead of sending data to the device this will just be printed to the log. It is for debugging purposes and should not normally be used."), 60))
         Page:
            title = QApplication.translate("device", "Job commands")
            closable = False
@@ -276,25 +252,25 @@ enamldef DeviceProgressDockItem(DockItem):
             ]
             attr duration << job.info.duration.total_seconds() if job and job.info.duration else 0
             Label: lbl1:
-                text << "Source: {}".format(job)
+                text << QApplication.translate("device", "Source: {}").format(job)
             Label: lbl2:
-                text << "Size: {}{} x {}{}".format(
+                text << QApplication.translate("device", "Size: {}{} x {}{}").format(
                         round(to_unit(job.model.boundingRect().height(), job_plugin.units),2),
                         job_plugin.units,
                         round(to_unit(job.model.boundingRect().width(), job_plugin.units), 2),
                         job_plugin.units
                     ) if job and job.model else ""
             Label: lbl3:
-                text << "Duration: {}".format(
-                        "{} min {} sec".format(int(duration/60),int(duration%60)
+                text << QApplication.translate("device", "Duration: {}").format(
+                        QApplication.translate("device", "{} min {} sec").format(int(duration/60),int(duration%60)
                     ) if (job and job.info.duration) else "")
             Label: lbl4:
                 attr t << max(0, ((job.info.started+job.info.duration)-clock.now).total_seconds()) if (
                             job and job.info.duration) else 0
-                text << "Left: {}".format("{} min {} sec".format(int(t/60), int(t%60)
+                text << QApplication.translate("device", "Left: {}").format(QApplication.translate("device", "{} min {} sec").format(int(t/60), int(t%60)
                     ) if t else "")
             Label: lbl5:
-                text << "Eta: {}".format(
+                text << QApplication.translate("device", "Eta: {}").format(
                     (job.info.started+job.info.duration).strftime("%X") if job and job.info.duration else ""
                 )
             # Label: lbl:
@@ -307,7 +283,7 @@ enamldef DeviceProgressDockItem(DockItem):
                 text_visible = True
             PushButton: pb1:
                 visible << device.busy
-                text = "Abort"
+                text = QApplication.translate("device", "Abort")
                 tool_tip = QApplication.translate("device", "Abort the current job")
                 icon = load_icon('control_stop')
                 clicked :: job.info.cancelled = True

@@ -11,6 +11,7 @@ Created on Dec 17, 2017
 @author: jrm
 """
 import textwrap
+from enaml.qt.QtWidgets import QApplication
 from inkcut.core.utils import load_icon
 from enaml.layout.api import hbox, align
 from enaml.widgets.api import Container, Form, Label, ObjectCombo, SpinBox, CheckBox, PushButton
@@ -20,7 +21,7 @@ enamldef PrinterSettingsView(Container):
     padding = 0
     Form:
         Label:
-            text = "Port"
+            text = QApplication.translate("printer", "Port")
         Container:
             constraints = [
                 hbox(cb, pb),
@@ -35,11 +36,9 @@ enamldef PrinterSettingsView(Container):
                     printer = change['value']
                     if printer:
                         model.printer = printer
-                tool_tip = textwrap.dedent("""
-                List of serial ports detected by the system. If nothing is here you
-                must install the device driver for your machine.
-                """).strip()
+                tool_tip = "\n".join(textwrap.wrap(
+                    QApplication.translate("printer", "List of serial ports detected by the system. If nothing is here you must install the device driver for your machine."), 60))
             PushButton: pb:
-                text = "Refresh"
+                text = QApplication.translate("printer", "Refresh")
                 icon = load_icon("arrow_refresh")
                 clicked :: model.refresh()

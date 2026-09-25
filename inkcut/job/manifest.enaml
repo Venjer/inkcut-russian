@@ -50,8 +50,8 @@ def open_document(event):
             plugin.open_document(path, nodes=event.parameters.get('nodes'))
         except JobError as e:
             workbench.message_critical(
-                title="Error opening document",
-                message="Could not open {}\n\n{}".format(path, e))
+                title=QApplication.translate("job", "Error opening document"),
+                message=QApplication.translate("job", "Could not open {}").format(path) + "\n\n{}".format(e))
 
 
 def cli_open_document(cmd):

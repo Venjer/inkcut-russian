@@ -131,8 +131,7 @@ enamldef JoystickDockItem(DockItem):
             PushButton: pb7:
                 enabled << not device.busy
                 icon << load_icon('disconnect' if device.connection.connected else 'connect')
-                tool_tip << "{} the device".format('Disconnect from' if device.connection.connected
-                                                   else 'Connect to')
+                tool_tip << (QApplication.translate("control", "Disconnect from the device") if device.connection.connected else QApplication.translate("control", "Connect to the device"))
                 clicked ::
                         if device.connection.connected:
                             device.disconnect()

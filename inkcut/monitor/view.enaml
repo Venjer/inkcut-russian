@@ -139,7 +139,7 @@ enamldef MonitorDockItem(DockItem): view:
         PushButton: btn_open:
             #text << "Close" if opened else "Open"
             icon << load_icon("disconnect" if connection and connection.connected else "connect")
-            tool_tip << "Connected. Click to disconnect" if connection and connection.connected else "Disconnected. Click to Connect"
+            tool_tip << (QApplication.translate("monitor", "Connected. Click to disconnect") if connection and connection.connected else QApplication.translate("monitor", "Disconnected. Click to Connect"))
             clicked ::
                 if connection and connection.connected:
                     deferred_call(device.disconnect)

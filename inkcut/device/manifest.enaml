@@ -53,7 +53,7 @@ def job_start(event):
     def show_error(err, *args, **kwargs):
         log.error(err)
         msg = str(err.getTraceback())
-        workbench.message_critical("Error processing job", msg)
+        workbench.message_critical(QApplication.translate("device", "Error processing job"), msg)
 
     d = defer.maybeDeferred(plugin.submit, job)
     d.addErrback(show_error)

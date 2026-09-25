@@ -120,7 +120,7 @@ enamldef ConfigView(Container): view:
                                 selected :: model.servo_gpio_pins[loop_index] = change['value']
         Page:
             closable = False
-            title = "Bounds"
+            title = QApplication.translate("pi", "Bounds")
             Container:
                 Form:
                     Looper:

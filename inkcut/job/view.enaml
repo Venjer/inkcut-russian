@@ -31,7 +31,7 @@ from inkcut.core.utils import (
 from inkcut.job.plugin import Job
 
 
-def try_update_setting(plugin, view, field, index, change, title="Does not fit"):
+def try_update_setting(plugin, view, field, index, change, title=None):
     """ Try to update the field with the given index and change. If it fails with a JobError,
     revert
 
@@ -39,7 +39,8 @@ def try_update_setting(plugin, view, field, index, change, title="Does not fit")
     try:
         field[index] = from_unit(change['value'], plugin.units)
     except Exception as e:
-        plugin.workbench.message_critical(title=title, message=str(e))
+        plugin.workbench.message_critical(
+            title=title or QApplication.translate("job", "Does not fit"), message=str(e))
         field[index] = from_unit(change['oldvalue'], plugin.units)
         view.value = change['oldvalue']
 
@@ -74,7 +75,7 @@ enamldef GraphicDockItem(DockItem):
                                 else:
                                     job.scale[0] = s
                             except Exception as e:
-                               plugin.workbench.message_critical(title="Does not fit", message=str(e))
+                               plugin.workbench.message_critical(title=QApplication.translate("job", "Does not fit"), message=str(e))
                                job.scale = oldvalue
                                self.value = change['oldvalue']
                     suffix << " "+plugin.units
@@ -97,7 +98,7 @@ enamldef GraphicDockItem(DockItem):
                                 else:
                                     job.scale[1] = s
                             except Exception as e:
-                               plugin.workbench.message_critical(title="Does not fit", message=str(e))
+                               plugin.workbench.message_critical(title=QApplication.translate("job", "Does not fit"), message=str(e))
                                job.scale = oldvalue
                                self.value = change['oldvalue']
                     suffix << " "+plugin.units
@@ -116,7 +117,7 @@ enamldef GraphicDockItem(DockItem):
                             else:
                                 job.scale[0] = s
                         except Exception as e:
-                           plugin.workbench.message_critical(title="Does not fit", message=str(e))
+                           plugin.workbench.message_critical(title=QApplication.translate("job", "Does not fit"), message=str(e))
                            job.scale = oldvalue
                            self.value = change['oldvalue']
                     suffix = ' %'
@@ -137,7 +138,7 @@ enamldef GraphicDockItem(DockItem):
                             else:
                                 job.scale[1] = s
                         except Exception as e:
-                           plugin.workbench.message_critical(title="Does not fit", message=str(e))
+                           plugin.workbench.message_critical(title=QApplication.translate("job", "Does not fit"), message=str(e))
                            job.scale = oldvalue
                            self.value = change['oldvalue']
                     suffix = ' %'
@@ -170,7 +171,7 @@ enamldef GraphicDockItem(DockItem):
                         try:
                             job.copies = change['value']
                         except Exception as e:
-                           plugin.workbench.message_critical(title="Does not fit", message=str(e))
+                           plugin.workbench.message_critical(title=QApplication.translate("job", "Does not fit"), message=str(e))
                            job.copies = oldvalue
                            self.value = change['oldvalue']
                     minimum = 1
@@ -183,7 +184,7 @@ enamldef GraphicDockItem(DockItem):
                     try:
                         job.add_stack()
                     except Exception as e:
-                       plugin.workbench.message_critical(title="Does not fit", message=str(e))
+                       plugin.workbench.message_critical(title=QApplication.translate("job", "Does not fit"), message=str(e))
                        job.copies = oldvalue
                        self.value = change['oldvalue']
             PushButton: pb2:
@@ -208,7 +209,7 @@ enamldef GraphicDockItem(DockItem):
                         try:
                             job.rotation = change['value']
                         except Exception as e:
-                            plugin.workbench.message_critical(title="Does not fit", message=str(e))
+                            plugin.workbench.message_critical(title=QApplication.translate("job", "Does not fit"), message=str(e))
                             job.rotation = oldvalue
                             self.value = change['oldvalue']
                     suffix = " °"
@@ -542,7 +543,17 @@ enamldef JobHistoryDockItem(DockItem):
     Container:
         padding = 0
         TableView: table:
-            horizontal_headers = ['Date', 'Document', 'Count', 'Duration', 'Status', 'Copies', 'Rotation', 'Size', 'Material' ]
+            horizontal_headers = [
+                QApplication.translate("job", "Date"),
+                QApplication.translate("job", "Document"),
+                QApplication.translate("job", "Count"),
+                QApplication.translate("job", "Duration"),
+                QApplication.translate("job", "Status"),
+                QApplication.translate("job", "Copies"),
+                QApplication.translate("job", "Rotation"),
+                QApplication.translate("job", "Size"),
+                QApplication.translate("job", "Material"),
+            ]
             horizontal_stretch = True
             resize_mode = 'resize_to_contents'
             items << plugin.jobs
@@ -559,7 +570,7 @@ enamldef JobHistoryDockItem(DockItem):
                         text << str(job.info.count) if job else "0"
                     TableViewItem:
                          attr duration << job.info.duration.total_seconds() if job and job.info.duration else 0
-                         text << "{} min {} sec".format(
+                         text << QApplication.translate("job", "{} min {} sec").format(
                                 int(duration/60),
                                 int(duration%60)
                                 ) if (duration) else ""

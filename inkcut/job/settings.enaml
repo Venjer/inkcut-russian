@@ -29,23 +29,15 @@ enamldef JobSettingsPage(Container):
         DoubleSpinBox:
             suffix = ' dpi'
             value := model.dpi_default
-            tool_tip = textwrap.dedent("""
-                When importing SVG files, if no units are specified,
-                how many units per inch should be assumed.  Changing
-                this requires closing and re-opening the working document.
-                """).strip()
+            tool_tip = "\n".join(textwrap.wrap(
+                QApplication.translate("settings", "When importing SVG files, if no units are specified, how many units per inch should be assumed.  Changing this requires closing and re-opening the working document."), 60))
         Label:
             text = QApplication.translate("settings", "Auto-detect Inkscape DPI")
         CheckBox:
             text = QApplication.translate("settings", "Enabled")
             checked := model.dpi_auto_detect_inkscape
-            tool_tip = textwrap.dedent("""
-                Use 96DPI for Inkscape 0.92 and above, or 90dpi for older versions.
-                Inkscape version is detected based on the 'inkscape:version' tag found
-                in the root <svg> element of the document.  Overrides default DPI
-                if Inkscape document is detected.  Changing this requires closing and
-                re-opening the working document.
-                """).strip()
+            tool_tip = "\n".join(textwrap.wrap(
+                QApplication.translate("settings", "Use 96DPI for Inkscape 0.92 and above, or 90dpi for older versions. Inkscape version is detected based on the 'inkscape:version' tag found in the root <svg> element of the document.  Overrides default DPI if Inkscape document is detected.  Changing this requires closing and re-opening the working document."), 60))
         Label:
             text = QApplication.translate("settings", "Optimizer timeout")
         DoubleSpinBox:

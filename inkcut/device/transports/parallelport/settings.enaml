@@ -41,10 +41,8 @@ enamldef ParallelPortSettingsView(Container):
                     port = change['value']
                     if port:
                         model.device_path = port.device
-                tool_tip = textwrap.dedent("""
-                List of parallel ports detected by the system. If nothing is here you
-                must install the device driver for your machine.
-                """).strip()
+                tool_tip = "\n".join(textwrap.wrap(
+                    QApplication.translate("parallelport", "List of parallel ports detected by the system. If nothing is here you must install the device driver for your machine."), 60))
             PushButton: pb:
                 text = QApplication.translate("parallelport", "Refresh")
                 icon = load_icon("arrow_refresh")

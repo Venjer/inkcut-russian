@@ -62,7 +62,7 @@ enamldef JobApprovalDialog(Dialog): dialog:
                     text = QApplication.translate("job", "Duration")
                     tool_tip = QApplication.translate("job", "Estimated job duration based on given speed and the job size.")
                 Label:
-                    text << "{} min {} sec".format(
+                    text << QApplication.translate("job", "{} min {} sec").format(
                             int(job.info.duration.total_seconds() / 60),
                             int(job.info.duration.total_seconds() % 60),
                         )
@@ -70,7 +70,7 @@ enamldef JobApprovalDialog(Dialog): dialog:
                     text = QApplication.translate("job", "Material")
                     tool_tip = QApplication.translate("job", "Estimated material usage")
                 Label:
-                    text << "Size: {}{} x {}{}".format(
+                    text << QApplication.translate("job", "Size: {}{} x {}{}").format(
                             round(to_unit(job.model.boundingRect().height(), job_plugin.units),2),
                             job_plugin.units,
                             round(to_unit(job.model.boundingRect().width(), job_plugin.units), 2),

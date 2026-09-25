@@ -15,13 +15,22 @@ import math
 from time import time
 from atom.api import Atom, Instance, Int, ForwardInstance, List
 from enaml.qt.QtGui import QVector2D
-from enaml.qt.QtWidgets import QApplication
 from inkcut.core.utils import (
     log, split_painter_path, join_painter_paths, to_unit, find_subclasses
 )
 
 from inkcut.core.api import Plugin
 from inkcut.core.workbench import InkcutWorkbench
+
+
+def QT_TRANSLATE_NOOP(context, text):
+    """ Only marks the text for lupdate. The names below are identifiers (they
+    are the keys of REGISTRY and are saved in the settings) so they must stay
+    the same in every language. They are translated when displayed, see
+    `to_string` in job/view.enaml.
+
+    """
+    return text
 
 
 class OrderHandler(Atom):
@@ -68,20 +77,20 @@ class OrderHandler(Atom):
 
 
 class OrderNormal(OrderHandler):
-    name = QApplication.translate("job", "Normal")
+    name = QT_TRANSLATE_NOOP("job", "Normal")
 
     def order(self, job, path):
         return path
 
 
 class OrderReversed(OrderHandler):
-    name = QApplication.translate("job", "Reversed")
+    name = QT_TRANSLATE_NOOP("job", "Reversed")
     def order(self, job, path):
         return path.toReversed()
 
 
 class OrderMinX(OrderHandler):
-    name = QApplication.translate("job", 'Min X')
+    name = QT_TRANSLATE_NOOP("job", 'Min X')
 
     def order(self, job, path):
         return self.order_by_func(
@@ -89,7 +98,7 @@ class OrderMinX(OrderHandler):
 
 
 class OrderMaxX(OrderHandler):
-    name = QApplication.translate("job", 'Max X')
+    name = QT_TRANSLATE_NOOP("job", 'Max X')
 
     def order(self, job, path):
         return self.order_by_func(
@@ -97,7 +106,7 @@ class OrderMaxX(OrderHandler):
 
 
 class OrderMinY(OrderHandler):
-    name = QApplication.translate("job", 'Min Y')
+    name = QT_TRANSLATE_NOOP("job", 'Min Y')
 
     def order(self, job, path):
         return self.order_by_func(
@@ -105,7 +114,7 @@ class OrderMinY(OrderHandler):
 
 
 class OrderMaxY(OrderHandler):
-    name = QApplication.translate("job", 'Max Y')
+    name = QT_TRANSLATE_NOOP("job", 'Max Y')
 
     def order(self, job, path):
         return self.order_by_func(
@@ -246,7 +255,7 @@ class OrderShortestPath(OrderHandler):
     """  Variation of greedy TSP solution using KDtree to query nearest point
 
     """
-    name = QApplication.translate("job", "Shortest Path")
+    name = QT_TRANSLATE_NOOP("job", "Shortest Path")
 
     def order(self, job, path):
         """ Sort subpaths by minimizing the distances between all start
@@ -327,7 +336,7 @@ class SpaceFillingCurveOrder(OrderHandler):
 
 
 class OrderHilbert(SpaceFillingCurveOrder):
-    name = QApplication.translate("job", 'SFC Hilbert')
+    name = QT_TRANSLATE_NOOP("job", 'SFC Hilbert')
 
     def curve_pos(self, p, p0, s):
         s *= 0.5
@@ -357,7 +366,7 @@ class OrderHilbert(SpaceFillingCurveOrder):
 
 
 class OrderZCurve(SpaceFillingCurveOrder):
-    name = QApplication.translate("job", 'SFC Z-curve')
+    name = QT_TRANSLATE_NOOP("job", 'SFC Z-curve')
 
     def curve_pos(self, p, p0, s):
         p = p.toPointF() - p0

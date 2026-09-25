@@ -49,6 +49,7 @@ ALL_TRANSLATIONS = (
     'English',
     'French',
     'German',
+    'Russian',
 )
 
 

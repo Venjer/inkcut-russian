@@ -173,11 +173,9 @@ class InkcutWorkbench(UIWorkbench):
 
     def set_language(self, language):
         try:
-            language = getattr(QtCore.QLocale, language, 'system')
-            if isinstance(language, int):
-                locale = QtCore.QLocale(language).name()
-            elif callable(language):
-                locale = language().name()
+            lang_enum = getattr(QtCore.QLocale.Language, language, None)
+            if lang_enum is not None:
+                locale = QtCore.QLocale(lang_enum).name()
             else:
                 locale = QtCore.QLocale.system().name()
             root_dir = os.path.dirname(os.path.dirname(__file__))
